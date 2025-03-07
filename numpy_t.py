@@ -1,60 +1,64 @@
+import array
+l = list(range(1, 10))
+A = array.array('i', l)
+
 import numpy as np
 
-# 1. Create a 1D array
-x1 = np.array([1, 2, 3, 4, 5], dtype='int32') # uint float  
+# 1. Array 1D
+x1 = np.array([1, 2, 3, 4, 5, 6], dtype='int32') # uint float  
 
-x1_grid = x1.reshape((3,3)) # reshape to 3x3 grid
-x1_grid = x1.reshape((3, -1)) # reshape to 3x3 grid with automatic column count
+# Riorganizza in una matrice 2x3
+x1_grid = x1.reshape((2,3)) 
+# Riorganizza in una matrice con conteggio automatico delle colonne
+x1_grid = x1.reshape((3, -1))
 
-# 2. Create a 2D array
+# 2. Array 2D 
 x2 = np.array([[1, 2, 3], 
                [4, 5, 6], 
                [7, 8, 9]])
 
-x2.ndim # number of dimensions 
-x2.shape # shape of the array
-x2.size # number of elements
-x2.dtype # data type of the array
-x2.itemsize # size of each element in bytesx2
+x2.ndim     # Dimensione 
+x2.shape    # Forma dell'array
+x2.size     # Numero di elementi
+x2.dtype    # Tipo di dati dell'array
+x2.itemsize # Dimensione di ciascun elemento in byte
 
-x2[0, :] # first row
-x2[:, 0] # first column
-x2[:2, 1:3] # first two rows, second and third columns
-x2[0, 0] # first element
-x2[0,0] = 99
+x2[0, :]    # Prima riga
+x2[:, 0]    # Prima colonna
+x2[:2, 1:3] # Prima due righe, seconda e terza colonna
+x2[0,0]= 99 # Modifica elemento in posizione 0,0
 
-x2_sub = x2[:2, :2] # subarray
-x2_sub[0, 0] = 42 # original array is modified
+# Vista Subarray con le prime due righe e colonne, modifica l'array originale 
+x2_sub = x2[:2, :2] 
+x2_sub[0, 0] = 42 
+# In questo modo si crea una copia del subarray
+x2_sub_copy = x2[:2, :2].copy() 
 
-x2_sub_copy = x2[:2, :2].copy() # copy of the subarray, not a view
+# Riorganizza in un array 1D
+x2_linear = x2.reshape(1, -1) 
 
-x2_linear = x2.reshape(1, -1) # 1D array
-
-# 3. Create a 3D array
+# 3. Array 3D
 x3 = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
 
-# 4. Create an array of zeros
-np.zeros((2, 3)) # 2x3 array of zeros
-np.zeros((2, 3, 2), dtype='int32') # 2x3x2 array of zeros
+# 4. Array preset
+np.zeros((2, 3)) # 2x3 array di zeri
+np.zeros((2, 3, 2), dtype='int32') # 2x3x2 array di zeri
+np.ones((2, 3)) # 2x3 array di uno
+np.full((2, 2), 99) # 2x2 array di 99
 
-# 5. Create an array of ones
-np.ones((2, 3)) # 2x3 array of ones
-
-# 6. Create an array of a constant value 
-np.full((2, 2), 99) # 2x2 array of 99
-
-# 7. Create an array of random numbers
-np.random.rand(4, 2) # 4x2 
+# 5. Array di numeri casuali
+np.random.rand(4, 2) # 4x2
 np.random.random((2, 2)) # 2x2
-np.random.randint(1, 7, size=(3, 3)) # 3x3 array of random integers from 1 to 6
-np.random.normal(0, 1, (3, 3)) # min = 0, stdev = 1, 3x3 array of random numbers from normal distribution
-np.random.seed(0) # seed for reproducibility
+np.random.randint(1, 7, size=(3, 3)) # 3x3 array di interi casuali da 1 a 6
+np.random.normal(0, 1, (3, 3)) # min = 0, stdev = 1, 3x3 array di numeri casuali dalla distribuzione normale
+np.random.seed(0) # seed 
 
 np.arange(1, 10, 2) # min, max, step [1, 3, 5, 7, 9]
 np.linspace(0, 10, 5) # min, max, [0, 2.5, 5, 7.5, 10]
-np.eye(3) # 3x3 identity matrix
-np.empty(5) # 1D array of 5 uninitialized values, fastest
+np.eye(3) # 3x3 matrice identità
+np.empty(5) # 1D array di 5 valori non inizializzati, più veloce
 
+# 6. Concatenazione di array
 x = np.array([1, 2, 3])
 y = np.array([4, 5, 6])
 np.concatenate([x, y]) 
@@ -67,17 +71,25 @@ h = np.array([[16],
               [17],
               [18]])
 
-n = np.vstack([x, z]) # vertical stack
-m = np.hstack([z, h]) # horizontal stack
-
-np.split(x, [1, 2]) # split at indices 1 and 2
+n = np.vstack([x, z]) # Aggiunge righe 
+m = np.hstack([z, h]) # Aggiunge colonne
 
 s = np.array([1,2,3,4,5,6,7,8,9])
+# Crea 3 array splittando s negli indici 3 e 6
+# [1, 2, 3] [4, 5, 6] [7, 8, 9]
 s1, s2, s3 = np.split(s, [3, 6]) 
 
-s1, s2 = np.vsplit(z, [2]) # vertical split
-s1, s2 = np.hsplit(z, [2]) # horizontal split
+# Spezza la seconda riga
+s1, s2 = np.vsplit(z, [2]) 
+s1 = [[ 7,  8,  9],
+      [10, 11, 12]]
+s2 = [[13, 14, 15]]
 
-import array
-l = list(range(1, 10))
-A = array.array('i', l)
+# Spezza la seconda colonna
+s1, s2 = np.hsplit(z, [2]) 
+s1 = [[ 7, 8],
+      [10, 11],
+      [13, 14]]
+s2 = [[ 9],
+      [12],
+      [15]]
