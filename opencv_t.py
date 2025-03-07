@@ -26,4 +26,4 @@ img[:100, :100] = (255, 0, 0) # change the color of the top-left corner to blue
 cv2.imwrite('corner.png', img) # save an image
 
 crop = img[100:300, 100:300] # crop a region
-cv2.imwrite('crop.png', crop) # save an image
+cv2.imwrite('crop.png', crop) # save an image  
