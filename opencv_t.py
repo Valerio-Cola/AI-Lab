@@ -32,3 +32,64 @@ cv2.imwrite('corner.png', img)
 # Crop di un'immagine 
 crop = img[100:300, 100:300] 
 cv2.imwrite('crop.png', crop)  
+
+
+# Disegnare su un'immagine
+canvas = np.zeros((300, 300, 3), dtype='uint8')
+
+green = (0, 255, 0)
+rosso = (0, 0, 255)
+
+# Disegna una linea verde dal punto (0, 0) a (300, 300)   
+spessore = 5
+cv2.line(canvas, (0, 0), (300, 300), green, spessore)
+
+# Rettangolo rosso
+spessore = 3 # -1 riempie 
+cv2.rectangle(canvas, (10, 10), (60, 60), rosso, spessore)
+
+# Cerchio verde 
+raggio = 20
+cv2.circle(canvas, (200, 50), raggio, green, spessore)
+
+# Cerchio centrato
+x = canvas.shape[1] // 2
+y = canvas.shape[0] // 2
+cv2.circle(canvas, (x, y), raggio, rosso, -1)
+
+cv2.imshow('Canvas', canvas)
+cv2.waitKey(0)
+
+
+b,g,r = cv2.split(img)
+channels = np.hstack([b, g, r])
+cv2.imshow('Splitted Channels', channels)
+
+b = img[:,:,0]
+g = img[:,:,1]
+r = img[:,:,2]
+channels = np.hstack([b, g, r])
+cv2.imshow('Splitted Channels', channels)
+
+new_img = cv2.merge([b, g, r])
+cv2.imshow('Merged Channels', new_img)
+cv2.waitKey(0)
+
+# Resize image 
+img_scale_size = cv2.resize(img, (200, 200), interpolation=cv2.INTER_LINEAR)
+img_scale_f = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
+
+cv2.imshow('Scaled', img_scale_size)
+cv2.imshow('Scaled', img_scale_f)
+cv2.waitKey(0)
+
+# Matrice di trasformazione per spostare l'immagine di 200 pixel a destra e 50 pixel in basso
+M = np.float32([[1, 0, 200], 
+                [0, 1, 50]])
+shifted = cv2.warpAffine(img, M, (img.shape[1]*2, img.shape[0]*2))
+cv2.imshow('Shifted Image', shifted)
+
+# Trasformazione in scala di grigi
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+cv2.imshow('Gray Image', gray)
+cv2.waitKey(0)
