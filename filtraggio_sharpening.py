@@ -60,3 +60,31 @@ cv2.imshow('Sharpen Image', sharpen_img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
+
+# Carica in modalità scala di grigi 
+gray_img = cv2.imread('01-Data/lena.png', cv2.IMREAD_GRAYSCALE)
+
+# Conversione in scala di grigi
+img = cv2.imread('01-Data/lena.png')
+gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Calcolo dei gradienti di Sobel
+grad_x = cv2.Sobel(gray_img, -1, 1, 0)
+grad_y = cv2.Sobel(gray_img, -1, 0, 1)
+# Converte i gradienti in valori assoluti formato uint8
+abs_grad_x = cv2.convertScaleAbs(grad_x)
+abs_grad_y = cv2.convertScaleAbs(grad_y)
+# Combina i gradienti con pesi uguali
+grad = cv2.addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0)
+
+# Filtro Laplaciano per il rilevamento dei bordi si basa sulla derivata seconda 
+dst = cv2.Laplacian(gray_img, -1, ksize=3)
+abs_dst = cv2.convertScaleAbs(dst)
+
+cv2.imshow('Original Image', img)
+cv2.imshow('Gray Image', gray_img)
+cv2.imshow('Gray Image', gray_img)
+cv2.imshow('Sobel', grad)
+cv2.imshow('Laplacian', abs_dst)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
