@@ -7,7 +7,9 @@ img = cv2.imread('01-Data/lena.png')
 # Proprietà dell'immagine width, height, channels, num pixel
 print(img.shape[1], img.shape[0], img.shape[2], img.size) 
 
-# Mostra immagine su finestra
+# Mostra immagine su finestra con dimensioni originali
+cv2.namedWindow('Lena', cv2.WINDOW_KEEPRATIO)
+# Mostra immagine su finestra 
 cv2.imshow('Lena', img)
 
 # Attendi pressione di un tasto qualsiasi
