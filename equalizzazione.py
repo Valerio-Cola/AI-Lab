@@ -33,7 +33,21 @@ equalized_hsv = cv2.merge([h, s_eq, v])
 # Converti di nuovo in BGR
 img_hsv_eq = cv2.cvtColor(equalized_hsv, cv2.COLOR_HSV2BGR)
 
+
+# Equalizzazione con CLAHE
+img = cv2.imread('01-Data/tsukuba.png', 0)
+eq_img = cv2.equalizeHist(img)
+
+# Create a CLAHE object, specifying the clip limit and tile grid size
+# clipLimit: threshold for contrast limiting
+# tileGridSize: size of the grid for histogram equalization 
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+
+# Apply CLAHE to the image
+clahe_img = clahe.apply(img)
+
 cv2.imshow('Equalizzazione Grigi', img_grey_eq)
 cv2.imshow('Equalizzazione Colori', img_color_eq)
 cv2.imshow('Equalizzazione HSV', img_hsv_eq)
+cv2.imshow('Equalizzazione Hist VS CLAHE', np.hstack([img, eq_img, clahe_img]))
 cv2.waitKey(0)
