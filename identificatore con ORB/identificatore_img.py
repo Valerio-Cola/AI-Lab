@@ -1,20 +1,18 @@
 import cv2
 import os
 
-# === STEP 1-2 ===
 # Path alle immagini
 db_path = "identificatore con ORB/database/"
 query_path = "identificatore con ORB/query/"
 
-# Nomi delle immagini di copertina (database)
+# Nomi delle immagini (database)
 cover_filenames = []
 for filename in os.listdir(db_path):
     if filename.lower().endswith(('.jpg', '.jpeg', '.png')):
         cover_filenames.append(filename)
 
-# === STEP 3 ===
 # Inizializza ORB e lista per i descrittori
-orb = cv2.ORB_create()
+orb = cv2.ORB_create(nfeatures=1000)
 descriptors_list = []
 
 # Estrazione descrittori dal database
@@ -28,9 +26,9 @@ for filename in cover_filenames:
     kp, des = orb.detectAndCompute(img, None)
     descriptors_list.append(des)
 
-# === STEP 4 ===
 # Carica immagine da classificare
 bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+
 for filename in os.listdir(query_path):
 
     query_img = cv2.imread(os.path.join(query_path, filename), cv2.IMREAD_GRAYSCALE)
@@ -38,7 +36,6 @@ for filename in os.listdir(query_path):
     # Estrae i keypoints e i descrittori dell'immagine da classificare
     kp_query, des_query = orb.detectAndCompute(query_img, None)
 
-    # === STEP 5 ===
     # Crea lista dei match
     matches_list = []
 
@@ -53,7 +50,6 @@ for filename in os.listdir(query_path):
         else:
             matches_list.append([])
 
-    # === STEP 6 ===
     # Trova il match con più good matches in modo da limitare i falsi positivi
     threshold = 30  # soglia per robustezza (step 7)
 
@@ -77,7 +73,6 @@ for filename in os.listdir(query_path):
             best_filename = cover_filenames[i]
             best_index = i
 
-    # === STEP 7 ===
     # Se nel migliore match ci sono più good matches della soglia, stampa il risultato
     skip = False
     if max_good_matches > threshold:
@@ -105,3 +100,51 @@ for filename in os.listdir(query_path):
         cv2.imshow("Matching", match_img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
+
+def objClassification(frame,descriptors_list):
+    orb = cv2.ORB_create(nfeatures=1000)
+    kp, des = orb.detectAndCompute(frame,None)
+
+    matcher = cv2.BFMatcher()
+    best_matches = []
+
+    for des_db in descriptors_list:
+        matches = matcher.knnMatch(des,des_db,k=2)
+        good = []
+
+        for m,n in matches:
+            if m.distance < n.distance * 0.8:
+                good.append([m])
+
+    best_matches.append(len(good))
+    
+    best_index = -1
+    if len(best_matches) > 0:
+        max_val = max(best_matches)
+        if max_val > 10:
+            best_index = best_matches.index(max_val)
+    
+
+    return cover_filenames[best_index]
+    
+# Mediante webcam, ma anche ip, link, folder
+webcam = cv2.VideoCapture(0)
+
+
+while True:
+    # Lettura del singolo frame
+    succes, frame = webcam.read()
+
+    obj = objClassification(frame, descriptors_list)
+
+    if obj != None:
+        cv2.putText(frame, obj, (50,50), cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
+
+    cv2.imshow('Frame', frame)
+    k = cv2.waitKey(30)
+    if k == ord('q'):
+        break
+
+
+
