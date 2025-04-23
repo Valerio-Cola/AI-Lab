@@ -20,7 +20,8 @@ iris = sns.load_dataset("iris")
 X_iris = iris.drop("species", axis=1)
 y = iris["species"]
 
-model = KMeans(n_clusters=4) 
+# Il numero di cluster è 3, perché ci sono 3 specie di fiori Iris nel dataset
+model = KMeans(n_clusters=3) 
 
 model.fit(X_iris)
 
