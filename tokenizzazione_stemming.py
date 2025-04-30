@@ -1,19 +1,21 @@
 import nltk
 
 # Comodo per installare i pacchetti necessari per il Natural Language Toolkit (NLTK), da fare una sola volta inseriscilo in un file a parte
-nltk.download('omw-1.4')
-nltk.download('tagsets')
-nltk.download('punkt')
-nltk.download('punkt_tab')
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
+#nltk.download('omw-1.4')
+#nltk.download('tagsets')
+#nltk.download('punkt')
+#nltk.download('punkt_tab')
+#nltk.download('stopwords')
+#nltk.download('averaged_perceptron_tagger')
+#nltk.download('wordnet')
+#nltk.download('averaged_perceptron_tagger_eng')
+#nltk.download('tagsets_json')
 
 # Tokenization
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 
-example_text = "Hello world! This is a test."
+example_text = "Hello world! This is a test sentence." 
 
 # Divide il testo in frasi e parole
 sent_tokenized = sent_tokenize(example_text)
@@ -41,3 +43,18 @@ from nltk.stem import PorterStemmer
 stemmer = PorterStemmer()
 stemmed_list = [stemmer.stem(word) for word in word_tokenized]
 print("Stemmed List:", stemmed_list)
+
+# POS Tagging
+# Il Part-of-Speech Tagging è il processo di assegnare a ogni parola di un testo il suo ruolo grammaticale (sostantivo, verbo, aggettivo, ecc.).
+
+tag = nltk.pos_tag(word_tokenized)
+print("POS Tagging:", nltk.help.upenn_tagset())
+
+# Lemmatization
+# La lemmatizzazione è un processo simile allo stemming, ma più sofisticato.
+from nltk.stem import WordNetLemmatizer
+lemmatizer = WordNetLemmatizer()
+
+lemm = lemmatizer.lemmatize('scarves')
+x = lemmatizer.lemmatize('worst', pos='a')
+print("Lemmatized:", lemm, x)
