@@ -1,5 +1,6 @@
 from sklearn.feature_extraction import DictVectorizer
 
+# Semplice metodo per mappare dati non numerici
 data = [
     {'price': 100, 'quantity': 200, 'name': 'spam'},
     {'price': 500, 'quantity': 500, 'name': 'eggs'},
@@ -8,7 +9,6 @@ data = [
 
 name = {'spam': 0, 'eggs': 1, 'bacon': 2}
 
-# one-hot encoding
 vec = DictVectorizer(sparse=False, dtype=int)
 
 X = vec.fit_transform(data)
