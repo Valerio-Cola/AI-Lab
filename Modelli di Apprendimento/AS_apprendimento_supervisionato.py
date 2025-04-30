@@ -45,6 +45,7 @@ sns.heatmap(confusion_matr, square=True, annot=True, fmt='d', cmap='Blues', cbar
 plt.xlabel('Predicted')
 plt.ylabel('True')
 
+
 # Visualizzazione dei primi 100 test set con le etichette originali e il colore verde se corretto, rosso se errato
 
 # Crea un array di 10 x 10 elementi per visualizzare le immagini
@@ -55,7 +56,6 @@ for i, ax in enumerate(axes.flat):
     # Grazie a idx_test immagini e relative etichette sono associate correttamente al valore predetto
     ax.imshow(digits.images[idx_test[i]], cmap='binary')
     ax.text(0.5, 0.05, str(digits.target[idx_test[i]]), color='green' if (ytest[i] == y_pred[i]) else 'red', fontsize=8, ha='right', va='top')
-
     ax.text(0.05, 0.05, f"Pred: {y_pred[i]}", color='red', fontsize=8, ha='left', va='bottom')
 
 
