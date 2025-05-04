@@ -136,11 +136,19 @@ while True:
     # Lettura del singolo frame
     succes, frame = webcam.read()
 
+    # Classificazione dell'oggetto nel frame
+    # Il frame viene convertito in scala di grigio
+
+    if not succes:
+        print("Errore nella lettura del frame")
+        break 
     obj = objClassification(frame, descriptors_list)
 
+    # Se l'oggetto è stato classificato, stampalo sul frame
     if obj != None:
         cv2.putText(frame, obj, (50,50), cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
 
+    # Mostra il frame
     cv2.imshow('Frame', frame)
     k = cv2.waitKey(30)
     if k == ord('q'):

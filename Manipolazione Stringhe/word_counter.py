@@ -27,4 +27,3 @@ print(vec.get_feature_names_out(), X)
 
 x_pd = pd.DataFrame(X.toarray(), columns=vec.get_feature_names_out())
 print(x_pd)
-
