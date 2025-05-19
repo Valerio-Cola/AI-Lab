@@ -172,7 +172,7 @@ for e in range(epochs):
 print("Training complete")
 
 # Salvo solo i pesi
-torch.save(model.state_dict(), "modello_test_weights.pth")
+# torch.save(model.state_dict(), "modello_test_weights.pth")
 
 # Salvo l'intero oggetto modello
 torch.save(model, "modello_test.pth")

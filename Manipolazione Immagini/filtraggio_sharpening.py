@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-img = cv2.imread('01-Data/salt_pepper.png')
+img = cv2.imread('Manipolazione Immagini/01-Data/salt_pepper.png')
 
 # Matrice di convoluzione per il filtraggio
 my_kernel = np.array([
@@ -37,7 +37,7 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 
-img2 = cv2.imread('01-Data/lena.png')
+img2 = cv2.imread('Manipolazione Immagini/01-Data/lena.png')
 
 # Unsharp Masking, L'immagine originale viene ponderata con un peso di 1.5,
 # mentre quella sfocata con -0.5; il risultato ne evidenzia i bordi.
@@ -62,10 +62,10 @@ cv2.destroyAllWindows()
 
 
 # Carica in modalità scala di grigi 
-gray_img = cv2.imread('01-Data/lena.png', cv2.IMREAD_GRAYSCALE)
+gray_img = cv2.imread('Manipolazione Immagini/01-Data/lena.png', cv2.IMREAD_GRAYSCALE)
 
 # Conversione in scala di grigi
-img = cv2.imread('01-Data/lena.png')
+img = cv2.imread('Manipolazione Immagini/01-Data/lena.png')
 gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Calcolo dei gradienti di Sobel
